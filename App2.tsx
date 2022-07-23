@@ -37,6 +37,17 @@ export default function Consulta() {
     });
   };
 
+  const handleOnClickpatch = async (id) => {
+    const url = `https://68jb68bukl.execute-api.sa-east-1.amazonaws.com/tasks/${id}`;
+    const dto = {
+      description: inputTarefa,
+      user: "Gabriel"
+    };
+    const resultado = await axios.put(url, dto);
+    const tarefaAtualizada = resultado.data.Item;
+    adcionarTarefa(tarefaAtualizada);
+  };
+
   const handleOnClickAdd = async () => {
     const url = "https://68jb68bukl.execute-api.sa-east-1.amazonaws.com/tasks/";
     const dto = {
@@ -83,9 +94,7 @@ export default function Consulta() {
               {tarefas.map((tarefa) => (
                 <li>
                   <input
-                    disabled
                     className="tarefa_conteudo"
-                    disabled
                     value={tarefa.description}
                   />
                   <button
@@ -93,6 +102,12 @@ export default function Consulta() {
                     onClick={() => handleOnClickExclude(tarefa.id)}
                   >
                     Excluir
+                  </button>
+                  <button
+                    className="btn botao_atualizar"
+                    onClick={() => handleOnClickpatch(tarefa.id)}
+                  >
+                    Atualizar
                   </button>
                 </li>
               ))}
